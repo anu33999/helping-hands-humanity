@@ -1,0 +1,312 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Design tokens — warm, human, editorial.
+   Forest green carries depth, saffron drives action, sun-yellow is the
+   hand-drawn accent, ivory gives the pages room to breathe.
+------------------------------------------------------------------- */
+@theme {
+  --color-pine-950: #0c231a;
+  --color-pine-900: #123426;
+  --color-pine-800: #1b4535;
+  --color-pine-700: #245741;
+  --color-pine-600: #2f6a4f;
+  --color-amber: #b55a12;
+  --color-amber-hover: #a24f0e;
+  --color-amber-soft: #f7e3cc;
+  --color-sun: #f2b544;
+  --color-sun-soft: #fbe9bf;
+  --color-linen: #eef3e8;
+  --color-sand: #ece5d2;
+  --color-ivory: #fbf8f1;
+  --color-ink: #1d2620;
+  --color-muted: #5d6a61;
+  --color-line: #e0dac8;
+  --color-line-dark: rgb(238 243 232 / 0.18);
+
+  --font-serif: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-ui: 10px;
+  --radius-media: 18px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-serif);
+    font-variation-settings: 'SOFT' 60, 'WONK' 0, 'opsz' 96;
+    font-weight: 430;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-sun-soft); color: var(--color-pine-900); }
+
+  :focus-visible {
+    outline: 2.5px solid var(--color-amber);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .on-dark :focus-visible { outline-color: var(--color-sun); }
+
+  img { max-width: 100%; height: auto; }
+}
+
+@layer components {
+  /* ---- Layout ---- */
+  .container-x {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) { .container-x { padding-inline: 40px; } }
+
+  .section-y { padding-block: clamp(4.5rem, 9vw, 8.5rem); }
+
+  /* ---- Type ---- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-amber);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+  .on-dark .eyebrow { color: var(--color-sun); }
+
+  .display-xl { font-size: clamp(2.6rem, 6.2vw, 5.4rem); }
+  .display-lg { font-size: clamp(2.2rem, 4.6vw, 3.9rem); }
+  .display-md { font-size: clamp(1.8rem, 3.3vw, 2.75rem); }
+  .display-sm { font-size: clamp(1.35rem, 2.1vw, 1.7rem); line-height: 1.2; }
+  .lede { font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.7; color: var(--color-muted); }
+  .on-dark .lede { color: rgb(238 243 232 / 0.82); }
+
+  /* ---- Buttons: one family, four variants ---- */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 50px;
+    padding: 0.9rem 1.6rem;
+    border-radius: var(--radius-ui);
+    border: 1.5px solid transparent;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 650;
+    letter-spacing: 0.005em;
+    line-height: 1.1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 200ms var(--ease-out-soft),
+      color 200ms var(--ease-out-soft),
+      border-color 200ms var(--ease-out-soft),
+      box-shadow 220ms var(--ease-out-soft),
+      transform 200ms var(--ease-out-soft);
+  }
+  .btn svg { flex: none; transition: transform 220ms var(--ease-out-soft); }
+  .btn:hover svg { transform: translate(2px, -2px); }
+  .btn:active { transform: translateY(0) scale(0.99); }
+  .btn:disabled { cursor: not-allowed; opacity: 0.55; transform: none; box-shadow: none; }
+  .btn-sm { min-height: 42px; padding: 0.65rem 1.15rem; font-size: 0.875rem; }
+  .btn-block { width: 100%; }
+
+  .btn-primary {
+    background: var(--color-amber);
+    color: #fff;
+    box-shadow: 0 1px 0 rgb(13 36 27 / 0.25), 0 6px 18px -10px rgb(181 90 18 / 0.7);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-amber-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 1px 0 rgb(13 36 27 / 0.25), 0 14px 26px -12px rgb(181 90 18 / 0.75);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-pine-900);
+    border-color: rgb(19 53 40 / 0.35);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--color-linen);
+    border-color: var(--color-pine-900);
+    transform: translateY(-1px);
+  }
+
+  /* For dark (maroon) surfaces */
+  .btn-light {
+    background: #fff;
+    color: var(--color-pine-900);
+  }
+  .btn-light:hover:not(:disabled) {
+    background: var(--color-linen);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px -14px rgb(0 0 0 / 0.5);
+  }
+  .btn-outline-light {
+    background: transparent;
+    color: var(--color-linen);
+    border-color: rgb(238 243 232 / 0.45);
+  }
+  .btn-outline-light:hover:not(:disabled) {
+    background: rgb(238 243 232 / 0.1);
+    border-color: var(--color-linen);
+    transform: translateY(-1px);
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-block: 0.35rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-pine-800);
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 260ms var(--ease-out-soft), color 200ms;
+  }
+  .link-arrow svg { transition: transform 220ms var(--ease-out-soft); }
+  .link-arrow:hover { background-size: 100% 1.5px; color: var(--color-amber); }
+  .link-arrow:hover svg { transform: translateX(4px); }
+  .on-dark .link-arrow { color: var(--color-sun); }
+  .on-dark .link-arrow:hover { color: var(--color-sun-soft); }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-ui);
+    border: 1.5px solid currentColor;
+    border-color: rgb(19 53 40 / 0.2);
+    color: inherit;
+    transition: background-color 200ms, border-color 200ms;
+  }
+  .icon-btn:hover { background: rgb(19 53 40 / 0.06); border-color: rgb(19 53 40 / 0.45); }
+
+  /* ---- Forms ---- */
+  .field-label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+  .field {
+    width: 100%;
+    min-height: 50px;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-ui);
+    border: 1.5px solid var(--color-line);
+    background: #fff;
+    color: var(--color-ink);
+    font-size: 1rem;
+    transition: border-color 180ms, box-shadow 180ms;
+  }
+  .field::placeholder { color: #a8968b; }
+  .field:hover { border-color: #d6bfa3; }
+  .field:focus { outline: none; border-color: var(--color-amber); box-shadow: 0 0 0 4px rgb(181 90 18 / 0.14); }
+  .field[aria-invalid='true'] { border-color: #b3261e; box-shadow: 0 0 0 4px rgb(179 38 30 / 0.1); }
+  .field-error { margin-top: 0.4rem; font-size: 0.85rem; font-weight: 600; color: #a5221b; display: flex; gap: 0.35rem; align-items: center; }
+
+  /* ---- Media ---- */
+  .media { position: relative; overflow: hidden; border-radius: var(--radius-media); background: var(--color-sand); }
+  .media img { width: 100%; height: 100%; object-fit: cover; }
+  .media-zoom img { transition: transform 900ms var(--ease-out-soft); }
+  .group:hover .media-zoom img { transform: scale(1.045); }
+
+  /* Organic "leaf" crop used sparingly as the signature motif */
+  .shape-leaf { border-radius: 220px 18px 220px 18px; }
+  .shape-arch { border-radius: 999px 999px 18px 18px; }
+
+  /* Demo labelling */
+  .demo-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.6rem;
+    border-radius: 6px;
+    background: var(--color-sun-soft);
+    color: #6b4a0d;
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .on-dark .demo-tag { background: rgb(242 181 68 / 0.16); color: var(--color-sun); }
+
+  .rule { height: 1px; background: var(--color-line); border: 0; }
+}
+
+/* Reveal-on-scroll */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 800ms var(--ease-out-soft), transform 800ms var(--ease-out-soft); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Hand-drawn underline draws itself in */
+.squiggle path { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 1.4s 0.5s var(--ease-out-soft) forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+@keyframes scroll-dot { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(12px); opacity: 0; } 100% { opacity: 0; } }
+.scroll-dot { animation: scroll-dot 1.8s infinite; }
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+.animate-fade-in { animation: fade-in 220ms ease-out both; }
+.animate-rise-in { animation: rise-in 320ms var(--ease-out-soft) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+  .squiggle path { stroke-dashoffset: 0; }
+}
+
+/* Handwritten accent — used sparingly for warmth */
+.font-script { font-family: 'Caveat', 'Segoe Script', cursive; font-weight: 600; letter-spacing: 0; line-height: 1; }
+
+/* Organic photo masks */
+.blob-a { border-radius: 58% 42% 47% 53% / 52% 46% 54% 48%; }
+.blob-b { border-radius: 44% 56% 62% 38% / 47% 58% 42% 53%; }
+.blob-c { border-radius: 63% 37% 54% 46% / 41% 55% 45% 59%; }
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 44% 56% 62% 38% / 47% 58% 42% 53%; }
+  50% { border-radius: 56% 44% 41% 59% / 58% 43% 57% 42%; }
+}
+.blob-morph { border-radius: 44% 56% 62% 38% / 47% 58% 42% 53%; animation: blob-morph 14s ease-in-out infinite; }
+
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.float-y { animation: float-y 6s ease-in-out infinite; }
